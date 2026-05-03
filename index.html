@@ -1,0 +1,50 @@
+<script>
+async function runAnalysis() {
+    const btn = document.getElementById("analyzeBtn");
+    const resDiv = document.getElementById("result");
+    
+    // 1. Clear previous results and start countdown
+    resDiv.innerHTML = "";
+    let timer = 5;
+    const interval = setInterval(() => {
+        btn.innerText = `Calculating Freedom in ${timer}s...`;
+        timer--;
+        if (timer < 0) clearInterval(interval);
+    }, 1000);
+
+    try {
+        // 2. The Clean Fetch Call (No extra brackets)
+        const response = await fetch('https://aurummagnaglobal.pythonanywhere.com/analyze', {
+    method: 'POST',
+    mode: 'cors', // <--- Add this line to force the bridge
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+        name: document.getElementById("userName").value,
+        debt: document.getElementById("debtAmt").value,
+        rate: document.getElementById("intRate").value,
+        emi: document.getElementById("userEmi").value
+    })
+});
+        
+        const data = await response.json();
+        
+        // 3. Display Result
+        btn.innerText = "REPORT GENERATED";
+        resDiv.innerHTML = `
+            <div style="border: 2px solid #d4af37; padding: 20px; border-radius: 10px; margin-top: 20px; background: #1a1a1a;">
+                <h3 style="color:#d4af37;">🛡️ DIAGNOSIS COMPLETE</h3>
+                <p>Daily Interest Leak: <b style="color:white;">${data.daily_leak}</b></p>
+                <p>Yearly Gold Loss: <b style="color:white;">${data.yearly_leak}</b></p>
+                <hr style="border-color: #d4af37;">
+                <p><strong style="color:#d4af37;">STRATEGY:</strong> <span style="color:white;">${data.action}</span></p>
+            </div>
+        `;
+    } catch (error) {
+        btn.innerText = "EXECUTE SHIELD ANALYSIS";
+        resDiv.innerHTML = "<p style='color:red;'>Connection Error. Please ensure the PythonAnywhere 'Web' tab was reloaded.</p>";
+    }
+}
+</script>

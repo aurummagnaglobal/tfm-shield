@@ -43,17 +43,18 @@
         }, 1000);
 
         try {
-            // 2. Execute Backend Call
-            const response = await fetch('https://aurummagnaglobal.pythonanywhere.com/analyze', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    name: document.getElementById("userName").value,
-                    debt: document.getElementById("debtAmt").value,
-                    rate: document.getElementById("intRate").value,
-                    emi: document.getElementById("userEmi").value
-                })
-            });
+            // 2. Execute Backend Call (Updated for Phase 2)
+        const response = await fetch('https://aurummagnaglobal.pythonanywhere.com/analyze', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: document.getElementById("userName").value,
+                email: document.getElementById("userEmail").value, // Captured here
+                debt: document.getElementById("debtAmt").value,
+                rate: document.getElementById("intRate").value,
+                emi: document.getElementById("userEmi").value
+            })
+        });
             
             const data = await response.json();
             

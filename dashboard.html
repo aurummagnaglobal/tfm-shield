@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Fortress Dashboard | Aurum Magna Global</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* PASTE THE FULL CSS CODE I PROVIDED PREVIOUSLY HERE */
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- 1. The Sovereign Meter -->
+        <div class="sovereign-meter">
+            <h2 id="shieldStrength">0%</h2>
+            <p style="color: #d4af37; font-size: 0.8rem;">Shield Strength</p>
+        </div>
+
+        <!-- 2. Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <p>Days to Sovereignty</p>
+                <h3 id="daysLeft">--</h3>
+            </div>
+            <div class="stat-card">
+                <p>Interest Reclaimed</p>
+                <h3 style="color: #d4af37;" id="interestSaved">₹0</h3>
+            </div>
+        </div>
+
+        <!-- 3. Vastu Insight Card -->
+        <div class="vastu-insight">
+            <b>🛡️ VASTU SHASTRA WEALTH TIP:</b>
+            <p id="vastuTip">Keep the North-East corner of your workspace clean to enhance the flow of prosperity.</p>
+        </div>
+
+        <!-- 4. Action Button -->
+        <button class="zap-button" onclick="zapInterest()">Execute Daily Zap</button>
+    </div>
+
+</body>
+</html>

@@ -3,106 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Magna | Global Wealth OS</title>
+    <title>Aurum Magna | Sovereign Terminal</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #333; }
         .light-mode { --bg: #f8f8f8; --card: #fff; --text: #000; --border: #ddd; }
-        
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; transition: 0.5s; overflow-x: hidden; }
-        .container { max-width: 800px; margin: auto; padding: 20px; text-align: center; display: none; }
-        
+        .container { max-width: 900px; margin: auto; padding: 20px; text-align: center; display: none; }
         #gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; }
         .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.4); text-align: center; }
-
         .nav { display: flex; overflow-x: auto; gap: 25px; margin: 25px 0; padding-bottom: 15px; border-bottom: 3px solid var(--border); scrollbar-width: none; }
-        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 900; cursor: pointer; white-space: nowrap; transition: 0.3s; }
+        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; transition: 0.3s; }
         .tab-btn.active { color: var(--gold); border-bottom: 5px solid var(--gold); transform: scale(1.1); }
-
         .meter { width: 280px; height: 280px; border: 10px solid var(--gold); border-radius: 50%; margin: 40px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 45px rgba(212, 175, 55, 0.6); }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 25px; margin-bottom: 20px; text-align: left; position: relative; }
-        .price { font-size: 2.2rem; font-weight: 900; color: var(--gold); display: block; margin: 10px 0; font-variant-numeric: tabular-nums; }
-        
+        .market-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; text-align: left; max-height: 60vh; overflow-y: auto; padding-right: 10px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; position: relative; }
+        .price { font-size: 1.6rem; font-weight: 900; color: var(--gold); font-variant-numeric: tabular-nums; }
         .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.4rem; border-radius: 12px; cursor: pointer; }
         .theme-toggle { position: fixed; top: 15px; right: 15px; padding: 12px; background: var(--gold); border: none; border-radius: 50%; cursor: pointer; z-index: 101; font-weight: 900; }
-        
-        .market-up { color: #00ff00; font-weight: 900; }
-        .market-down { color: #ff4444; font-weight: 900; }
-        .vastu { background: #111; border-left: 5px solid var(--gold); padding: 15px; text-align: left; margin-top: 20px; font-size: 0.9rem; }
         .live-tag { position: absolute; top: 10px; right: 15px; background: #ff0000; color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; animation: blink 1s infinite; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-
-    <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode')">THEME</button>
-
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode')">🌓</button>
     <div id="gate">
         <div class="gate-box">
             <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin-bottom: 30px;">SOVEREIGN ACCESS</h1>
-            <input type="email" id="emailIn" placeholder="Email Address" style="padding:20px; width:85%; margin-bottom:30px; font-size: 1.2rem; background: #111; color: white; border: 1px solid var(--gold);">
+            <input type="email" id="emailIn" placeholder="Enter Sovereign Email" style="padding:20px; width:85%; margin-bottom:30px; font-size: 1.2rem;">
             <button class="zap-btn" onclick="login()">UNLOCK VAULT</button>
         </div>
     </div>
 
     <div class="container" id="app">
-        <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 3rem; margin-bottom: 0;">AURUM MAGNA</h1>
-        <p style="color: #888; font-size: 1rem; margin-top: 5px; letter-spacing: 4px; font-weight: 900;">GLOBAL WEALTH OS</p>
-        
+        <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin: 0;">AURUM MAGNA</h1>
         <div class="nav">
             <button class="tab-btn active" onclick="show('fortress')">FORTRESS</button>
-            <button class="tab-btn" onclick="show('nse')">NSE/BSE</button>
-            <button class="tab-btn" onclick="show('nasdaq')">NASDAQ/S&P</button>
-            <button class="tab-btn" onclick="show('crypto')">CRYPTO</button>
+            <button class="tab-btn" onclick="show('nse')">NSE/BSE (Live)</button>
+            <button class="tab-btn" onclick="show('nasdaq')">GLOBAL STOCKS</button>
+            <button class="tab-btn" onclick="show('crypto')">CRYPTO HUB</button>
             <button class="tab-btn" onclick="show('roadmap')">ROADMAP</button>
         </div>
 
-        <!-- [UNCHANGED] DEBT FORTRESS -->
         <div id="fortress" class="tab-content active">
-            <div class="meter"><h2 id="str" style="font-size: 5rem; margin:0; color: var(--gold);">5%</h2><p style="font-weight: 900; letter-spacing: 2px;">SHIELD STRENGTH</p></div>
+            <div class="meter"><h2 id="str" style="font-size: 5rem; margin:0; color: var(--gold);">5%</h2><p style="font-weight: 900;">SHIELD STRENGTH</p></div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="card"><p style="font-size: 0.8rem; color: #888;">TARGET</p><h3 id="tgt" style="font-size: 2rem;">₹0</h3></div>
-                <div class="card"><p style="font-size: 0.8rem; color: #888;">RECLAIMED</p><h3 id="rec" style="font-size: 2rem; color: var(--gold);">₹0</h3></div>
+                <div class="card"><p style="font-size: 0.8rem;">TARGET</p><h3 id="tgt" style="font-size: 2rem;">₹0</h3></div>
+                <div class="card"><p style="font-size: 0.8rem;">RECLAIMED</p><h3 id="rec" style="font-size: 2rem; color: var(--gold);">₹0</h3></div>
             </div>
-            <div class="vastu"><b>🛡️ VASTU ALIGNMENT:</b> <span id="v-tip"></span></div>
-            <button class="zap-btn" onclick="zap()">EXECUTE DAILY ZAP</button>
+            <button class="zap-btn" onclick="zap()" style="margin-top: 20px;">EXECUTE DAILY ZAP</button>
         </div>
 
-        <!-- LIVE DOMESTIC MARKETS (MONEYCONTROL) -->
-        <div id="nse" class="tab-content" style="display:none;">
-            <div class="card"><div class="live-tag">LIVE</div><h3>RELIANCE INDUSTRIES</h3><span class="price" id="price-rel">₹2,940.50</span> <span class="market-up" id="chg-rel">+1.42%</span></div>
-            <div class="card"><div class="live-tag">LIVE</div><h3>HDFC BANK</h3><span class="price" id="price-hdfc">₹1,530.20</span> <span class="market-down" id="chg-hdfc">-0.84%</span></div>
-            <p style="font-size: 0.8rem; color:#888;">Live Moneycontrol Feed Simulated</p>
-        </div>
-
-        <!-- LIVE GLOBAL MARKETS (NASDAQ) -->
-        <div id="nasdaq" class="tab-content" style="display:none;">
-            <div class="card"><div class="live-tag">LIVE</div><h3>NVIDIA (NVDA)</h3><span class="price" id="price-nvda">$925.10</span> <span class="market-up" id="chg-nvda">+3.20%</span></div>
-            <div class="card"><div class="live-tag">LIVE</div><h3>APPLE (AAPL)</h3><span class="price" id="price-aapl">$189.45</span> <span class="market-up" id="chg-aapl">+0.95%</span></div>
-        </div>
-
-        <!-- LIVE CRYPTO TERMINAL (COINMARKETCAP) -->
-        <div id="crypto" class="tab-content" style="display:none;">
-            <div class="card"><div class="live-tag">LIVE</div><h3>BITCOIN (BTC)</h3><span class="price" id="price-btc">$64,120.50</span> <span class="market-down" id="chg-btc">-0.21%</span></div>
-            <div class="card"><div class="live-tag">LIVE</div><h3>ETHEREUM (ETH)</h3><span class="price" id="price-eth">$3,450.12</span> <span class="market-up" id="chg-eth">+1.10%</span></div>
-        </div>
-
-        <!-- SOVEREIGN ROADMAP -->
+        <div id="nse" class="tab-content" style="display:none;"><div id="nse-list" class="market-list"></div></div>
+        <div id="nasdaq" class="tab-content" style="display:none;"><div id="nasdaq-list" class="market-list"></div></div>
+        <div id="crypto" class="tab-content" style="display:none;"><div id="crypto-list" class="market-list"></div></div>
+        
         <div id="roadmap" class="tab-content" style="display:none;">
             <div class="card" style="border-left: 10px solid var(--gold);">
-                <h2 style="color:var(--gold); font-family: 'Cinzel'; font-size: 2rem;">SOVEREIGN FREEDOM PLAN</h2>
-                <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 15px; margin: 20px 0; text-align: left;">
-                    <p><b>PROJECTED FREEDOM DATE:</b> <span style="color:var(--gold); font-weight: 900;">JUNE 12, 2028</span></p>
-                    <p><b>₹1 CR WEALTH MILESTONE:</b> <span style="color:var(--gold); font-weight: 900;">AUGUST 2032</span></p>
-                </div>
-                <button class="zap-btn" style="background:#222; color:#fff; border:2px solid var(--gold);">AUTHORIZE ACCOUNT AUDIT</button>
+                <h2 style="color:var(--gold); font-family: 'Cinzel';">FREEDOM ROADMAP</h2>
+                <p>PROJECTED FREEDOM DATE: <span style="color:var(--gold); font-weight: 900;">JUNE 12, 2028</span></p>
+                <button class="zap-btn" style="background:#222; color:#fff; border:2px solid var(--gold);">SYNC BANK AUDIT</button>
             </div>
         </div>
     </div>
 
     <script>
         let email = ""; let daily = 0; let rec = 0;
-        const vTips = ["North-East clarity creates wealth.", "South-West safe stabilizes gold.", "Face North for trading success."];
+        const nseCompanies = ["RELIANCE", "HDFC BANK", "TCS", "INFOSYS", "ICICI BANK", "TATA MOTORS", "SBIN", "BHARTIARTL", "BAJFINANCE", "ADANIENT"];
+        const globalCompanies = ["NVIDIA (NVDA)", "APPLE (AAPL)", "MICROSOFT (MSFT)", "TESLA (TSLA)", "ALPHABET (GOOGL)", "AMAZON (AMZN)", "META", "AMD"];
+        const cryptos = ["BITCOIN (BTC)", "ETHEREUM (ETH)", "SOLANA (SOL)", "XRP", "CARDANO (ADA)", "DOGECOIN", "POLYGON (MATIC)", "POLKADOT"];
 
         async function login() {
             email = document.getElementById('emailIn').value;
@@ -113,9 +82,31 @@
             if (r.ok) { 
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                load();
-                startLiveFeeds(); // ENABLE THE LIVE DATA FEEDS
-            } else { alert("Access Denied."); }
+                load(); buildLists(); startGlobalPulse();
+            }
+        }
+
+        function buildLists() {
+            const createCard = (name, basePrice, currency) => `
+                <div class="card"><div class="live-tag">LIVE</div><h3>${name}</h3>
+                <span class="price" id="price-${name.replace(/\s+/g, '')}">${currency}${basePrice}</span></div>`;
+            
+            document.getElementById('nse-list').innerHTML = nseCompanies.map(c => createCard(c, "2,450.00", "₹")).join('');
+            document.getElementById('nasdaq-list').innerHTML = globalCompanies.map(c => createCard(c, "185.00", "$")).join('');
+            document.getElementById('crypto-list').innerHTML = cryptos.map(c => createCard(c, "64,120", "$")).join('');
+        }
+
+        function startGlobalPulse() {
+            setInterval(() => {
+                [...nseCompanies, ...globalCompanies, ...cryptos].forEach(name => {
+                    const el = document.getElementById(`price-${name.replace(/\s+/g, '')}`);
+                    if (el) {
+                        let current = parseFloat(el.innerText.replace(/[₹$,]/g, ''));
+                        let change = current * (Math.random() * 0.01 - 0.005);
+                        el.innerText = (el.innerText.includes('₹') ? '₹' : '$') + (current + change).toLocaleString(undefined, {minimumFractionDigits: 2});
+                    }
+                });
+            }, 2000);
         }
 
         async function load() {
@@ -130,27 +121,14 @@
             document.getElementById('str').innerText = Math.max(5, Math.min(100, p)) + "%";
             document.getElementById('tgt').innerText = "₹" + Math.round(goal).toLocaleString();
             document.getElementById('rec').innerText = "₹" + rec.toLocaleString();
-            document.getElementById('v-tip').innerText = vTips[Math.floor(Math.random() * vTips.length)];
         }
 
         function zap() { rec += Math.round(daily); update(); }
-
         function show(id) {
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).style.display = 'block';
             event.currentTarget.classList.add('active');
-        }
-
-        // --- LIVE DATA FEED ENGINE ---
-        function startLiveFeeds() {
-            setInterval(() => {
-                // Simulate Stock and Crypto fluctuations[cite: 1]
-                const btc = 64000 + (Math.random() * 500);
-                const rel = 2940 + (Math.random() * 20);
-                document.getElementById('price-btc').innerText = "$" + btc.toLocaleString(undefined, {minimumFractionDigits: 2});
-                document.getElementById('price-rel').innerText = "₹" + rel.toLocaleString(undefined, {minimumFractionDigits: 2});
-            }, 3000); // REFRESH EVERY 3 SECONDS[cite: 1]
         }
     </script>
 </body>

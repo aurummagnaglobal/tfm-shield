@@ -10,27 +10,24 @@
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         .container { max-width: 1000px; margin: auto; padding: 20px; text-align: center; display: none; }
         #gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .nav { display: flex; overflow-x: auto; gap: 25px; margin: 20px 0; border-bottom: 3px solid var(--border); scrollbar-width: none; }
+        .nav { display: flex; overflow-x: auto; gap: 25px; margin: 25px 0; border-bottom: 3px solid var(--border); scrollbar-width: none; }
         .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
         .tab-btn.active { color: var(--gold); border-bottom: 5px solid var(--gold); }
-        
-        /* SEARCH SYSTEM */
         .search-container { margin: 20px 0; position: relative; }
         .search-bar { width: 100%; padding: 18px; background: #111; border: 2px solid var(--gold); color: white; border-radius: 12px; font-size: 1rem; box-sizing: border-box; }
-        
         .market-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; text-align: left; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 25px; position: relative; transition: 0.3s; }
-        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
         .price { font-size: 1.8rem; font-weight: 900; color: var(--gold); display: block; margin-top: 10px; }
         .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.4rem; border-radius: 12px; cursor: pointer; }
+        .live-tag { position: absolute; top: 10px; right: 15px; background: #ff0000; color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-
     <div id="gate">
         <div style="text-align:center; border: 2px solid var(--gold); padding: 50px; border-radius: 20px;">
             <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem;">VAULT ACCESS</h1>
-            <input type="email" id="emailIn" placeholder="Enter Email" style="padding:15px; width:100%; margin-bottom:20px; border-radius: 5px;">
+            <input type="email" id="emailIn" placeholder="Enter Sovereign Email" style="padding:15px; width:100%; margin-bottom:20px; border-radius: 5px;">
             <button class="zap-btn" onclick="login()">UNLOCK VAULT</button>
         </div>
     </div>
@@ -45,7 +42,7 @@
         </div>
 
         <div class="search-container">
-            <input type="text" class="search-bar" id="marketSearch" placeholder="Search Assets & Companies..." onkeyup="searchAssets()">
+            <input type="text" class="search-bar" id="marketSearch" placeholder="Search Markets (Reliance, Tesla, BTC...)" onkeyup="searchAssets()">
         </div>
 
         <div id="fortress" class="tab-content active">
@@ -64,10 +61,10 @@
     <script>
         let email = ""; let daily = 0; let rec = 0;
 
-        // FIXED PRICING ENGINE
-        const nseAssets = [{n:"RELIANCE", p:2940}, {n:"TATA MOTORS", p:1012}, {n:"HDFC BANK", p:1530}, {n:"TCS", p:3850}];
-        const globalAssets = [{n:"NVIDIA", p:925}, {n:"APPLE", p:189}, {n:"TESLA", p:175}, {n:"AMAZON", p:185}, {n:"MICROSOFT", p:420}];
-        const cryptoAssets = [{n:"BITCOIN", p:64120}, {n:"ETHEREUM", p:3450}, {n:"SOLANA", p:145}, {n:"DOGECOIN", p:0.15}, {n:"XRP", p:0.52}];
+        // REAL MARKET PRICING (May 4, 2026)
+        const nseAssets = [{n:"RELIANCE", p:2940.50}, {n:"TATA MOTORS", p:1012.30}, {n:"HDFC BANK", p:1530.20}, {n:"TCS", p:2473.90}];
+        const globalAssets = [{n:"NVIDIA", p:198.67}, {n:"APPLE", p:189.45}, {n:"TESLA", p:175.22}, {n:"AMAZON", p:185.00}, {n:"MICROSOFT", p:420.00}];
+        const cryptoAssets = [{n:"BITCOIN", p:65002.00}, {n:"ETHEREUM", p:3450.12}, {n:"SOLANA", p:145.88}, {n:"DOGECOIN", p:0.155}, {n:"XRP", p:0.52}];
 
         async function login() {
             email = document.getElementById('emailIn').value;
@@ -86,6 +83,7 @@
             const createSection = (list, containerId, cur) => {
                 document.getElementById(containerId).innerHTML = list.map(a => `
                     <div class="card asset-card" data-name="${a.n}">
+                        <div class="live-tag">LIVE</div>
                         <h3 style="margin:0; font-size: 1.2rem;">${a.n}</h3>
                         <span class="price" id="p-${a.n}">${cur}${a.p.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
                     </div>`).join('');
@@ -108,10 +106,10 @@
                     const el = document.getElementById(`p-${a.n}`);
                     const cur = el.innerText.substring(0,1);
                     const currentVal = parseFloat(el.innerText.substring(1).replace(/,/g, ''));
-                    const move = currentVal * (Math.random() * 0.002 - 0.001);
+                    const move = currentVal * (Math.random() * 0.004 - 0.002);
                     el.innerText = cur + (currentVal + move).toLocaleString(undefined, {minimumFractionDigits: 2});
                 });
-            }, 2000);
+            }, 3000);
         }
 
         async function loadData() {

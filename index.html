@@ -6,78 +6,19 @@
     <title>TFM Sovereign Shield | Aurum Magna Global</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --obsidian: #0b0b0b;
-        }
-
-        body {
-            background-color: var(--obsidian);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
+        :root { --gold: #d4af37; --gold-glow: rgba(212, 175, 55, 0.4); --obsidian: #0b0b0b; }
+        body { background-color: var(--obsidian); color: white; font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
         h1 { font-family: 'Cinzel', serif; color: var(--gold); letter-spacing: 2px; margin-bottom: 5px; }
         .branding { color: var(--gold); font-size: 0.8rem; margin-bottom: 30px; }
-
-        .shield-form {
-            background: #111;
-            border: 1px solid var(--gold);
-            padding: 30px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 0 20px var(--gold-glow);
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: #222;
-            border: 1px solid #444;
-            color: white;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .analyze-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--gold);
-            border: none;
-            color: black;
-            font-weight: bold;
-            font-family: 'Cinzel', serif;
-            margin-top: 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        #result-box {
-            display: none;
-            margin-top: 30px;
-            background: #1a1a1a;
-            border: 1px solid var(--gold);
-            padding: 20px;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 400px;
-        }
-
+        .shield-form { background: #111; border: 1px solid var(--gold); padding: 30px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 0 20px var(--gold-glow); }
+        input { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; }
+        .analyze-btn { width: 100%; padding: 15px; background: var(--gold); border: none; color: black; font-weight: bold; font-family: 'Cinzel', serif; margin-top: 20px; cursor: pointer; border-radius: 5px; }
+        #result-box { display: none; margin-top: 30px; background: #1a1a1a; border: 1px solid var(--gold); padding: 20px; border-radius: 10px; width: 100%; max-width: 400px; }
         .highlight { color: var(--gold); font-weight: bold; }
         .redirect-notice { font-size: 0.8rem; color: #888; margin-top: 15px; font-style: italic; }
     </style>
 </head>
 <body>
-
     <div style="display:flex; align-items:center; gap:10px;">
         <span style="font-size: 2rem;">🛡️</span>
         <h1>SOVEREIGN SHIELD</h1>
@@ -87,11 +28,9 @@
     <div class="shield-form">
         <input type="text" id="userName" placeholder="Your Name">
         <input type="email" id="userEmail" placeholder="Your Email Address">
-        <input type="number" id="loanAmount" placeholder="Loan Amount (e.g., 500000)">
-        <input type="number" id="interestRate" placeholder="Interest Rate % (e.g., 12)">
-        <!-- RESTORED EMI FIELD -->
+        <input type="number" id="loanAmount" placeholder="Loan Amount">
+        <input type="number" id="interestRate" placeholder="Interest Rate %">
         <input type="number" id="monthlyEMI" placeholder="Current Monthly EMI">
-        
         <button class="analyze-btn" id="submitBtn" onclick="executeAnalysis()">EXECUTE SHIELD ANALYSIS</button>
     </div>
 
@@ -100,20 +39,19 @@
         <p>Daily Interest Leak: <span class="highlight" id="resDaily">--</span></p>
         <p>Yearly Gold Loss: <span class="highlight" id="resYearly">--</span></p>
         <p id="resStrategy" style="font-size: 0.9rem; line-height: 1.4;"></p>
-        
         <p class="redirect-notice">🔒 Transitioning to your Gold Fortress Dashboard in 5 seconds...</p>
     </div>
 
     <script>
         async function executeAnalysis() {
             const btn = document.getElementById('submitBtn');
-            const originalText = btn.innerText;
             btn.innerText = "CALCULATING...";
             btn.disabled = true;
 
+            const emailValue = document.getElementById('userEmail').value;
             const payload = {
                 name: document.getElementById('userName').value,
-                email: document.getElementById('userEmail').value,
+                email: emailValue,
                 debt: document.getElementById('loanAmount').value,
                 rate: document.getElementById('interestRate').value,
                 emi: document.getElementById('monthlyEMI').value
@@ -127,28 +65,21 @@
                 });
 
                 const data = await response.json();
-
                 if (data.status === "Success") {
                     document.getElementById('resDaily').innerText = data.daily_leak;
                     document.getElementById('resYearly').innerText = data.yearly_leak;
                     document.getElementById('resStrategy').innerText = data.action;
                     document.getElementById('result-box').style.display = 'block';
 
-                    // THE AUTOMATIC REDIRECT
+                    // REDIRECT WITH EMAIL DATA
                     setTimeout(() => {
-    const email = document.getElementById('userEmail').value;
-    window.location.href = `dashboard.html?email=${encodeURIComponent(email)}`;
-}, 5000);
-                } else {
-                    alert("Error: " + data.message);
-                    btn.disabled = false;
-                    btn.innerText = originalText;
+                        window.location.href = `dashboard.html?email=${encodeURIComponent(emailValue)}`;
+                    }, 5000);
                 }
             } catch (error) {
-                console.error("Connection Error:", error);
-                alert("The Sovereign Engine is currently offline. Please try again later.");
+                alert("The Sovereign Engine is offline. Check PythonAnywhere.");
                 btn.disabled = false;
-                btn.innerText = originalText;
+                btn.innerText = "EXECUTE SHIELD ANALYSIS";
             }
         }
     </script>

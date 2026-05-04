@@ -3,68 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Magna | Sovereign Terminal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Aurum Magna | Sovereign Wealth OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #333; }
+        :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #222; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-        .container { max-width: 1000px; margin: auto; padding: 20px; text-align: center; display: none; }
+        .container { max-width: 1100px; margin: auto; padding: 20px; display: none; }
         #gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .nav { display: flex; overflow-x: auto; gap: 25px; margin: 25px 0; border-bottom: 3px solid var(--border); scrollbar-width: none; }
-        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
-        .tab-btn.active { color: var(--gold); border-bottom: 5px solid var(--gold); }
-        .search-container { margin: 20px 0; position: relative; }
-        .search-bar { width: 100%; padding: 18px; background: #111; border: 2px solid var(--gold); color: white; border-radius: 12px; font-size: 1rem; box-sizing: border-box; }
-        .market-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; text-align: left; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 25px; position: relative; transition: 0.3s; }
-        .price { font-size: 1.8rem; font-weight: 900; color: var(--gold); display: block; margin-top: 10px; }
-        .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.4rem; border-radius: 12px; cursor: pointer; }
-        .live-tag { position: absolute; top: 10px; right: 15px; background: #ff0000; color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        /* COINMARKETCAP INSPIRED STATS */
+        .market-banner { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; text-align: left; }
+        .stat-card small { color: #888; font-size: 0.7rem; text-transform: uppercase; }
+        .stat-card h4 { margin: 5px 0; color: var(--gold); }
+
+        .nav { display: flex; gap: 20px; margin: 20px 0; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: none; }
+        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel'; font-size: 0.9rem; font-weight: 700; cursor: pointer; padding: 10px 0; }
+        .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+
+        /* TABLE VIEW FOR SCALABILITY */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
+        th { color: #888; font-size: 0.75rem; padding: 12px; border-bottom: 1px solid var(--border); }
+        td { padding: 15px 12px; border-bottom: 1px solid var(--border); font-size: 0.9rem; font-weight: 600; }
+        .up { color: #00ff00; } .down { color: #ff4444; }
+
+        .zap-btn { width: 100%; padding: 20px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 700; border-radius: 8px; cursor: pointer; font-size: 1.1rem; }
+        .meter-box { width: 220px; height: 220px; border: 5px solid var(--gold); border-radius: 50%; margin: 20px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
     </style>
 </head>
 <body>
+
     <div id="gate">
-        <div style="text-align:center; border: 2px solid var(--gold); padding: 50px; border-radius: 20px;">
-            <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem;">VAULT ACCESS</h1>
-            <input type="email" id="emailIn" placeholder="Enter Sovereign Email" style="padding:15px; width:100%; margin-bottom:20px; border-radius: 5px;">
+        <div style="border: 2px solid var(--gold); padding: 50px; border-radius: 20px; text-align: center;">
+            <h1 style="font-family: 'Cinzel'; color: var(--gold);">VAULT ACCESS</h1>
+            <input type="email" id="emailIn" placeholder="Email Address" style="padding:15px; width:100%; margin-bottom:20px; background:#111; color:white; border:1px solid #444;">
             <button class="zap-btn" onclick="login()">UNLOCK VAULT</button>
         </div>
     </div>
 
     <div class="container" id="app">
-        <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin: 0;">AURUM MAGNA</h1>
+        <div class="market-banner">
+            <div class="stat-card"><small>Global Market Cap</small><h4>$2.66T <span class="up">▲ 2.57%</span></h4></div>
+            <div class="stat-card"><small>Sovereign Sentiment</small><h4>49/100 (Neutral)</h4></div>
+            <div class="stat-card"><small>24h Trading Vol</small><h4>$122.7B</h4></div>
+        </div>
+
         <div class="nav">
-            <button class="tab-btn active" onclick="showTab('fortress')">FORTRESS</button>
-            <button class="tab-btn" onclick="showTab('nse')">NSE/BSE (LIVE)</button>
-            <button class="tab-btn" onclick="showTab('nasdaq')">GLOBAL STOCKS</button>
+            <button class="tab-btn active" onclick="showTab('fortress')">🛡️ FORTRESS</button>
+            <button class="tab-btn" onclick="showTab('nse')">NSE/BSE (INDIA)</button>
+            <button class="tab-btn" onclick="showTab('global')">NASDAQ/S&P</button>
             <button class="tab-btn" onclick="showTab('crypto')">CRYPTO HUB</button>
         </div>
 
-        <div class="search-container">
-            <input type="text" class="search-bar" id="marketSearch" placeholder="Search Markets (Reliance, Tesla, BTC...)" onkeyup="searchAssets()">
-        </div>
-
         <div id="fortress" class="tab-content active">
-            <div style="width:250px; height:250px; border:10px solid var(--gold); border-radius:50%; margin:40px auto; display:flex; flex-direction:column; justify-content:center; box-shadow: 0 0 30px var(--gold-glow);">
-                <h2 id="str" style="font-size: 4rem; margin:0; color: var(--gold);">5%</h2>
-                <p style="font-weight: 900; font-size: 0.7rem;">STRENGTH</p>
-            </div>
+            <div class="meter-box"><h2 id="str" style="font-size: 3rem; margin:0; color: var(--gold);">5%</h2><p style="font-size: 0.6rem; font-weight: 700;">STRENGTH</p></div>
             <button class="zap-btn" onclick="zap()">EXECUTE DAILY ZAP</button>
         </div>
 
-        <div id="nse" class="tab-content" style="display:none;"><div id="nse-list" class="market-list"></div></div>
-        <div id="nasdaq" class="tab-content" style="display:none;"><div id="nasdaq-list" class="market-list"></div></div>
-        <div id="crypto" class="tab-content" style="display:none;"><div id="crypto-list" class="market-list"></div></div>
+        <div id="nse" class="tab-content" style="display:none;">
+            <table><thead><tr><th>NAME</th><th>PRICE</th><th>24H %</th><th>MARKET CAP</th></tr></thead><tbody id="nse-body"></tbody></table>
+        </div>
+
+        <div id="global" class="tab-content" style="display:none;">
+            <table><thead><tr><th>NAME</th><th>PRICE</th><th>24H %</th><th>MARKET CAP</th></tr></thead><tbody id="global-body"></tbody></table>
+        </div>
+
+        <div id="crypto" class="tab-content" style="display:none;">
+            <table><thead><tr><th>NAME</th><th>PRICE</th><th>24H %</th><th>MARKET CAP</th></tr></thead><tbody id="crypto-body"></tbody></table>
+        </div>
     </div>
 
     <script>
         let email = ""; let daily = 0; let rec = 0;
 
-        // REAL MARKET PRICING (May 4, 2026)
-        const nseAssets = [{n:"RELIANCE", p:2940.50}, {n:"TATA MOTORS", p:1012.30}, {n:"HDFC BANK", p:1530.20}, {n:"TCS", p:2473.90}];
-        const globalAssets = [{n:"NVIDIA", p:198.67}, {n:"APPLE", p:189.45}, {n:"TESLA", p:175.22}, {n:"AMAZON", p:185.00}, {n:"MICROSOFT", p:420.00}];
-        const cryptoAssets = [{n:"BITCOIN", p:65002.00}, {n:"ETHEREUM", p:3450.12}, {n:"SOLANA", p:145.88}, {n:"DOGECOIN", p:0.155}, {n:"XRP", p:0.52}];
+        // REALISTIC MARKET DATA STRUCTURE
+        const data = {
+            nse: [
+                {n: "RELIANCE", p: 2940.50, c: 1.42, m: "₹19.2T"},
+                {n: "TATA MOTORS", p: 1012.30, c: 2.15, m: "₹3.4T"},
+                {n: "HDFC BANK", p: 1530.20, c: -0.84, m: "₹11.6T"}
+            ],
+            global: [
+                {n: "NVIDIA (NVDA)", p: 925.10, c: 3.20, m: "$2.3T"},
+                {n: "APPLE (AAPL)", p: 189.45, c: 0.95, m: "$2.9T"},
+                {n: "TESLA (TSLA)", p: 175.22, c: 4.12, m: "$550B"}
+            ],
+            crypto: [
+                {n: "Bitcoin (BTC)", p: 65002.40, c: -1.45, m: "$1.27T"},
+                {n: "Ethereum (ETH)", p: 3450.12, c: 1.10, m: "$412B"},
+                {n: "Solana (SOL)", p: 145.88, c: 5.80, m: "$65B"}
+            ]
+        };
 
         async function login() {
             email = document.getElementById('emailIn').value;
@@ -72,42 +101,34 @@
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email: email})
             });
-            if (r.ok) { 
+            if (r.ok) {
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                loadData(); buildLists(); startPulse();
-            } else { alert("Vault Identity Not Found."); }
+                loadData(); renderTables(); startMarketPulse();
+            }
         }
 
-        function buildLists() {
-            const createSection = (list, containerId, cur) => {
-                document.getElementById(containerId).innerHTML = list.map(a => `
-                    <div class="card asset-card" data-name="${a.n}">
-                        <div class="live-tag">LIVE</div>
-                        <h3 style="margin:0; font-size: 1.2rem;">${a.n}</h3>
-                        <span class="price" id="p-${a.n}">${cur}${a.p.toLocaleString(undefined, {minimumFractionDigits: 2})}</span>
-                    </div>`).join('');
-            };
-            createSection(nseAssets, 'nse-list', '₹');
-            createSection(globalAssets, 'nasdaq-list', '$');
-            createSection(cryptoAssets, 'crypto-list', '$');
-        }
-
-        function searchAssets() {
-            const query = document.getElementById('marketSearch').value.toUpperCase();
-            document.querySelectorAll('.asset-card').forEach(card => {
-                card.style.display = card.getAttribute('data-name').includes(query) ? 'block' : 'none';
+        function renderTables() {
+            Object.keys(data).forEach(key => {
+                document.getElementById(`${key}-body`).innerHTML = data[key].map(a => `
+                    <tr>
+                        <td>${a.n}</td>
+                        <td id="p-${a.n.replace(/\s+/g, '')}">${a.p.toLocaleString()}</td>
+                        <td class="${a.c >= 0 ? 'up' : 'down'}">${a.c > 0 ? '▲' : '▼'} ${Math.abs(a.c)}%</td>
+                        <td>${a.m}</td>
+                    </tr>`).join('');
             });
         }
 
-        function startPulse() {
+        function startMarketPulse() {
             setInterval(() => {
-                [...nseAssets, ...globalAssets, ...cryptoAssets].forEach(a => {
-                    const el = document.getElementById(`p-${a.n}`);
-                    const cur = el.innerText.substring(0,1);
-                    const currentVal = parseFloat(el.innerText.substring(1).replace(/,/g, ''));
-                    const move = currentVal * (Math.random() * 0.004 - 0.002);
-                    el.innerText = cur + (currentVal + move).toLocaleString(undefined, {minimumFractionDigits: 2});
+                Object.values(data).flat().forEach(a => {
+                    const el = document.getElementById(`p-${a.n.replace(/\s+/g, '')}`);
+                    if (el) {
+                        let current = parseFloat(el.innerText.replace(/,/g, ''));
+                        let move = current * (Math.random() * 0.002 - 0.001);
+                        el.innerText = (current + move).toLocaleString(undefined, {minimumFractionDigits: 2});
+                    }
                 });
             }, 3000);
         }

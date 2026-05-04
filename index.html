@@ -89,6 +89,9 @@
         <input type="email" id="userEmail" placeholder="Your Email Address">
         <input type="number" id="loanAmount" placeholder="Loan Amount (e.g., 500000)">
         <input type="number" id="interestRate" placeholder="Interest Rate % (e.g., 12)">
+        <!-- RESTORED EMI FIELD -->
+        <input type="number" id="monthlyEMI" placeholder="Current Monthly EMI">
+        
         <button class="analyze-btn" id="submitBtn" onclick="executeAnalysis()">EXECUTE SHIELD ANALYSIS</button>
     </div>
 
@@ -104,6 +107,7 @@
     <script>
         async function executeAnalysis() {
             const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
             btn.innerText = "CALCULATING...";
             btn.disabled = true;
 
@@ -111,7 +115,8 @@
                 name: document.getElementById('userName').value,
                 email: document.getElementById('userEmail').value,
                 debt: document.getElementById('loanAmount').value,
-                rate: document.getElementById('interestRate').value
+                rate: document.getElementById('interestRate').value,
+                emi: document.getElementById('monthlyEMI').value
             };
 
             try {
@@ -129,21 +134,20 @@
                     document.getElementById('resStrategy').innerText = data.action;
                     document.getElementById('result-box').style.display = 'block';
 
-                    // --- THE AUTOMATIC REDIRECT BRIDGE ---
-                    // Give the user 5 seconds to realize their loss before showing the solution
+                    // THE AUTOMATIC REDIRECT
                     setTimeout(() => {
                         window.location.href = "dashboard.html";
                     }, 5000);
                 } else {
                     alert("Error: " + data.message);
                     btn.disabled = false;
-                    btn.innerText = "EXECUTE SHIELD ANALYSIS";
+                    btn.innerText = originalText;
                 }
             } catch (error) {
                 console.error("Connection Error:", error);
                 alert("The Sovereign Engine is currently offline. Please try again later.");
                 btn.disabled = false;
-                btn.innerText = "EXECUTE SHIELD ANALYSIS";
+                btn.innerText = originalText;
             }
         }
     </script>

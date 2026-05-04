@@ -3,52 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Magna | Sovereign Terminal</title>
+    <title>Aurum Magna | Sovereign Wealth OS</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #333; }
         .light-mode { --bg: #f8f8f8; --card: #fff; --text: #000; --border: #ddd; }
-        
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; transition: 0.5s; overflow-x: hidden; }
         .container { max-width: 600px; margin: auto; padding: 20px; text-align: center; display: none; }
-        
-        /* AUTH GATE */
         #gate { position: fixed; inset: 0; background: #000; z-index: 100; display: flex; align-items: center; justify-content: center; }
-        .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); }
-
-        /* NAVIGATION: BOLD & BIG */
+        .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; text-align: center; }
         .nav { display: flex; overflow-x: auto; gap: 20px; margin: 25px 0; padding-bottom: 15px; border-bottom: 2px solid var(--border); scrollbar-width: none; }
-        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.3s; }
-        .tab-btn.active { color: var(--gold); border-bottom: 3px solid var(--gold); transform: scale(1.1); }
-
+        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
+        .tab-btn.active { color: var(--gold); border-bottom: 4px solid var(--gold); }
         .meter { width: 260px; height: 260px; border: 8px solid var(--gold); border-radius: 50%; margin: 40px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 45px rgba(212, 175, 55, 0.5); }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 18px; padding: 25px; margin-bottom: 20px; text-align: left; }
-        .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 700; font-size: 1.2rem; border-radius: 12px; cursor: pointer; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        
-        .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .price { font-size: 1.4rem; font-weight: 700; color: var(--gold); display: block; margin: 5px 0; }
-        .theme-toggle { position: fixed; top: 15px; right: 15px; padding: 12px; background: var(--gold); border: none; border-radius: 50%; cursor: pointer; font-size: 1.2rem; z-index: 101; }
-        
-        .market-up { color: #00ff00; font-weight: bold; }
-        .market-down { color: #ff4444; font-weight: bold; }
+        .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.2rem; border-radius: 12px; cursor: pointer; }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--gold); display: block; }
+        .theme-toggle { position: fixed; top: 15px; right: 15px; padding: 12px; background: var(--gold); border: none; border-radius: 50%; cursor: pointer; z-index: 101; font-weight: bold; }
     </style>
 </head>
-<body onload="checkSession()">
-
-    <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode')">🌓</button>
-
+<body>
+    <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode')">THEME</button>
     <div id="gate">
         <div class="gate-box">
             <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2rem;">SOVEREIGN ACCESS</h1>
-            <input type="email" id="emailInput" placeholder="Sovereign Email" style="padding:18px; width:85%; margin-bottom:25px; font-size: 1.1rem; border-radius: 8px; border: 1px solid var(--gold); background: #111; color: white;">
+            <input type="email" id="emailInput" placeholder="Sovereign Email" style="padding:18px; width:85%; margin-bottom:25px; font-size: 1.1rem;">
             <button class="zap-btn" onclick="login()">UNLOCK VAULT</button>
         </div>
     </div>
 
     <div class="container" id="app">
         <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin-bottom: 0;">AURUM MAGNA</h1>
-        <p style="color: #888; font-size: 0.8rem; margin-top: 5px; letter-spacing: 2px;">GLOBAL WEALTH OS v2.0</p>
-        
         <div class="nav">
             <button class="tab-btn active" onclick="show('fortress')">FORTRESS</button>
             <button class="tab-btn" onclick="show('domestic')">NSE/BSE</button>
@@ -57,55 +42,42 @@
             <button class="tab-btn" onclick="show('roadmap')">ROADMAP</button>
         </div>
 
-        <!-- FORTRESS TAB -->
-        <div id="fortress" class="tab-content active">
-            <div class="meter"><h2 id="str" style="font-size: 4rem; margin:0; color: var(--gold);">5%</h2><p style="font-size: 0.8rem; font-weight: bold; letter-spacing: 1px;">SHIELD STRENGTH</p></div>
-            <div class="market-grid">
-                <div class="card"><p style="font-size: 0.7rem; color: #888; margin: 0;">TARGET</p><h3 id="tgt" style="font-size: 1.5rem; margin: 5px 0;">₹0</h3></div>
-                <div class="card"><p style="font-size: 0.7rem; color: #888; margin: 0;">RECLAIMED</p><h3 id="rec" style="font-size: 1.5rem; margin: 5px 0; color: var(--gold);">₹0</h3></div>
+        <div id="fortress" class="tab-content">
+            <div class="meter"><h2 id="str" style="font-size: 4rem; margin:0; color: var(--gold);">5%</h2><p style="font-weight: 900;">SHIELD STRENGTH</p></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="card"><p style="font-size: 0.7rem;">TARGET</p><h3 id="tgt" style="font-size: 1.6rem;">₹0</h3></div>
+                <div class="card"><p style="font-size: 0.7rem;">RECLAIMED</p><h3 id="rec" style="font-size: 1.6rem; color: var(--gold);">₹0</h3></div>
             </div>
             <button class="zap-btn" onclick="zap()">EXECUTE DAILY ZAP</button>
         </div>
 
-        <!-- DOMESTIC STOCKS (NSE/BSE) -->
         <div id="domestic" class="tab-content" style="display:none;">
-            <div class="card"><h3>RELIANCE</h3><span class="price">₹2,940.50</span> <span class="market-up">+1.42%</span></div>
-            <div class="card"><h3>TATA MOTORS</h3><span class="price">₹1,012.30</span> <span class="market-up">+2.15%</span></div>
-            <div class="card"><h3>HDFC BANK</h3><span class="price">₹1,530.20</span> <span class="market-down">-0.84%</span></div>
-            <p style="font-size: 0.7rem; color:#888;">Live Moneycontrol Institutional Feed active.</p>
+            <div class="card"><h3>RELIANCE</h3><span class="price">₹2,940.50</span> <span style="color:#0f0;">+1.4%</span></div>
+            <div class="card"><h3>HDFC BANK</h3><span class="price">₹1,530.20</span> <span style="color:#f00;">-0.8%</span></div>
         </div>
 
-        <!-- GLOBAL STOCKS (NASDAQ/S&P) -->
         <div id="global" class="tab-content" style="display:none;">
-            <div class="card"><h3>APPLE (AAPL)</h3><span class="price">$189.45</span> <span class="market-up">+0.95%</span></div>
-            <div class="card"><h3>TESLA (TSLA)</h3><span class="price">$175.22</span> <span class="market-up">+4.12%</span></div>
-            <div class="card"><h3>NVIDIA (NVDA)</h3><span class="price">$925.10</span> <span class="market-up">+3.20%</span></div>
+            <div class="card"><h3>APPLE (AAPL)</h3><span class="price">$189.45</span> <span style="color:#0f0;">+2.1%</span></div>
+            <div class="card"><h3>NVIDIA (NVDA)</h3><span class="price">$925.10</span> <span style="color:#0f0;">+3.2%</span></div>
         </div>
 
-        <!-- CRYPTO (CoinMarketCap Depth) -->
         <div id="crypto" class="tab-content" style="display:none;">
-            <div class="card"><h3>BITCOIN (BTC)</h3><span class="price">$64,120.50</span> <span class="market-down">-0.21%</span></div>
-            <div class="card"><h3>ETHEREUM (ETH)</h3><span class="price">$3,450.12</span> <span class="market-up">+1.10%</span></div>
-            <div class="card"><h3>SOLANA (SOL)</h3><span class="price">$145.88</span> <span class="market-up">+5.80%</span></div>
+            <div class="card"><h3>BITCOIN (BTC)</h3><span class="price">$64,120.50</span></div>
+            <div class="card"><h3>SOLANA (SOL)</h3><span class="price">$145.88</span></div>
         </div>
 
-        <!-- SOVEREIGN ROADMAP -->
         <div id="roadmap" class="tab-content" style="display:none;">
-            <div class="card" style="border-left: 5px solid var(--gold);">
-                <h2 style="color:var(--gold); font-family: 'Cinzel'; margin-top: 0;">SOVEREIGN FREEDOM PLAN</h2>
-                <p>Status: <b style="color: #0f0;">ACTIVE ANALYSIS</b></p>
-                <div style="background: #222; padding: 15px; border-radius: 10px; margin: 15px 0;">
-                    <p style="margin: 5px 0;"><b>Projected Freedom Date:</b> <span style="color:var(--gold);">June 12, 2028</span></p>
-                    <p style="margin: 5px 0;"><b>Wealth-Building Milestone (₹1 Cr):</b> <span style="color:var(--gold);">Aug 2032</span></p>
-                </div>
-                <button class="zap-btn" style="background:#222; color:#fff; border:1px solid var(--gold);">AUTHORIZE FULL ACCOUNT AUDIT</button>
+            <div class="card" style="border-left: 6px solid var(--gold);">
+                <h2 style="color:var(--gold); font-family: 'Cinzel'; margin: 0;">FREEDOM PLAN</h2>
+                <p>Status: <b>ANALYSIS AUTHORIZED</b></p>
+                <p>Freedom Date: <b style="color: var(--gold); font-size: 1.2rem;">JUNE 12, 2028</b></p>
+                <button class="zap-btn" style="background:#222; color:#fff; border:1px solid var(--gold);">SYNC BANK AUDIT</button>
             </div>
         </div>
     </div>
 
     <script>
         let email = ""; let daily = 0; let rec = 0;
-
         async function login() {
             email = document.getElementById('emailInput').value;
             const r = await fetch('https://aurummagnaglobal.pythonanywhere.com/login', {
@@ -116,9 +88,8 @@
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
                 load();
-            } else { alert("Vault identification failed."); }
+            } else { alert("Login Error: Ensure you have performed a Shield Analysis first."); }
         }
-
         async function load() {
             const r = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${encodeURIComponent(email)}`);
             const d = await r.json();
@@ -127,22 +98,15 @@
                 update(); 
             }
         }
-
         function update() {
             const goal = daily * 30 || 1;
             let p = Math.round((rec / goal) * 100);
             document.getElementById('str').innerText = Math.max(5, Math.min(100, p)) + "%";
             document.getElementById('tgt').innerText = "₹" + Math.round(goal).toLocaleString();
             document.getElementById('rec').innerText = "₹" + rec.toLocaleString();
-            
-            if (p >= 100) {
-                document.getElementById('str').style.color = "#00ff00";
-                document.getElementById('str').innerText = "FREE";
-            }
+            if (p >= 100) { document.getElementById('str').style.color = "#0f0"; document.getElementById('str').innerText = "FREE"; }
         }
-
         function zap() { rec += Math.round(daily); update(); }
-
         function show(id) {
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

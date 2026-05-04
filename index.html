@@ -24,7 +24,6 @@
         <h1>SOVEREIGN SHIELD</h1>
     </div>
     <p class="branding">Aurum Magna Global | Founding 100 Phase</p>
-
     <div class="shield-form">
         <input type="text" id="userName" placeholder="Your Name">
         <input type="email" id="userEmail" placeholder="Your Email Address">
@@ -33,7 +32,6 @@
         <input type="number" id="monthlyEMI" placeholder="Current Monthly EMI">
         <button class="analyze-btn" id="submitBtn" onclick="executeAnalysis()">EXECUTE SHIELD ANALYSIS</button>
     </div>
-
     <div id="result-box">
         <h2 style="font-family: 'Cinzel'; border-bottom: 1px solid #333; padding-bottom: 10px;">DIAGNOSIS COMPLETE</h2>
         <p>Daily Interest Leak: <span class="highlight" id="resDaily">--</span></p>
@@ -41,13 +39,11 @@
         <p id="resStrategy" style="font-size: 0.9rem; line-height: 1.4;"></p>
         <p class="redirect-notice">🔒 Transitioning to your Gold Fortress Dashboard in 5 seconds...</p>
     </div>
-
     <script>
         async function executeAnalysis() {
             const btn = document.getElementById('submitBtn');
             btn.innerText = "CALCULATING...";
             btn.disabled = true;
-
             const emailValue = document.getElementById('userEmail').value;
             const payload = {
                 name: document.getElementById('userName').value,
@@ -56,28 +52,24 @@
                 rate: document.getElementById('interestRate').value,
                 emi: document.getElementById('monthlyEMI').value
             };
-
             try {
                 const response = await fetch('https://aurummagnaglobal.pythonanywhere.com/analyze', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-
                 const data = await response.json();
                 if (data.status === "Success") {
                     document.getElementById('resDaily').innerText = data.daily_leak;
                     document.getElementById('resYearly').innerText = data.yearly_leak;
                     document.getElementById('resStrategy').innerText = data.action;
                     document.getElementById('result-box').style.display = 'block';
-
-                    // REDIRECT WITH EMAIL DATA[cite: 6, 7]
                     setTimeout(() => {
                         window.location.href = `dashboard.html?email=${encodeURIComponent(emailValue)}`;
                     }, 5000);
                 }
             } catch (error) {
-                alert("The Sovereign Engine is offline. Check PythonAnywhere.");
+                alert("The Sovereign Engine is offline.");
                 btn.disabled = false;
                 btn.innerText = "EXECUTE SHIELD ANALYSIS";
             }

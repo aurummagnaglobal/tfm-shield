@@ -136,8 +136,9 @@
 
                     // THE AUTOMATIC REDIRECT
                     setTimeout(() => {
-                        window.location.href = "dashboard.html";
-                    }, 5000);
+    const email = document.getElementById('userEmail').value;
+    window.location.href = `dashboard.html?email=${encodeURIComponent(email)}`;
+}, 5000);
                 } else {
                     alert("Error: " + data.message);
                     btn.disabled = false;

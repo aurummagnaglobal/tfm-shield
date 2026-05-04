@@ -3,97 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Magna | Sovereign Wealth OS</title>
+    <title>Aurum Magna | Sovereign Terminal</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #222; --up: #00ff00; --down: #ff4444; }
+        :root { --gold: #d4af37; --bg: #f4f7f9; --card: #ffffff; --text: #1a1a1a; --border: #e1e4e8; --up: #008d36; --down: #cf222e; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; }
         .container { max-width: 1200px; margin: auto; padding: 20px; display: none; }
-        
-        /* AUTH GATE */
-        #gate { position: fixed; inset: 0; background: #000; z-index: 2000; display: flex; align-items: center; justify-content: center; }
-        .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; text-align: center; background: #111; }
-
-        /* CMC INSPIRED TOP STATS */
+        #gate { position: fixed; inset: 0; background: #ffffff; z-index: 2000; display: flex; align-items: center; justify-content: center; }
+        .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .top-stats { display: flex; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; flex-wrap: wrap; }
-        .stat-box { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; min-width: 180px; }
-        .stat-box small { color: #888; font-size: 0.7rem; text-transform: uppercase; }
-        .stat-box h4 { margin: 5px 0; font-size: 1.1rem; }
-
-        /* FEAR & GREED INDICATOR */
-        .gauge-container { text-align: center; padding: 10px; background: var(--card); border-radius: 12px; border: 1px solid var(--border); }
-        .gauge { width: 100px; height: 50px; background: linear-gradient(90deg, red, yellow, green); border-radius: 50px 50px 0 0; margin: 0 auto; position: relative; }
-        .needle { width: 2px; height: 40px; background: #fff; position: absolute; bottom: 0; left: 50%; transform-origin: bottom; transform: rotate(-10deg); }
-
-        /* NAVIGATION & TABLES */
-        .nav { display: flex; gap: 25px; margin-bottom: 20px; }
-        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel'; font-size: 1rem; font-weight: 700; cursor: pointer; }
-        .tab-btn.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
-
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { text-align: left; color: #888; font-size: 0.7rem; padding: 10px; border-bottom: 1px solid var(--border); }
-        td { padding: 15px 10px; border-bottom: 1px solid var(--border); font-size: 0.85rem; font-weight: 600; }
-        
-        .price-col { color: var(--gold); }
-        .zap-btn { width: 100%; padding: 20px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 700; border-radius: 8px; cursor: pointer; }
-        .meter-wrap { width: 200px; height: 200px; border: 5px solid var(--gold); border-radius: 50%; margin: 20px auto; display: flex; flex-direction: column; justify-content: center; text-align: center; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        .stat-box { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; min-width: 200px; flex: 1; }
+        .stat-box small { color: #666; font-size: 0.75rem; text-transform: uppercase; }
+        .stat-box h4 { margin: 5px 0; font-size: 1.2rem; }
+        .nav { display: flex; gap: 30px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel'; font-size: 1rem; font-weight: 700; cursor: pointer; padding: 15px 0; }
+        .tab-btn.active { color: var(--gold); border-bottom: 3px solid var(--gold); }
+        table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        th { text-align: left; color: #666; font-size: 0.8rem; padding: 15px; border-bottom: 1px solid var(--border); background: #fafbfc; }
+        td { padding: 20px 15px; border-bottom: 1px solid var(--border); font-size: 0.95rem; font-weight: 600; }
+        .up { color: var(--up); } .down { color: var(--down); }
+        .zap-btn { width: 100%; padding: 20px; background: var(--gold); border: none; color: #fff; font-family: 'Cinzel'; font-weight: 700; border-radius: 8px; cursor: pointer; }
+        .meter-wrap { width: 250px; height: 250px; border: 8px solid var(--gold); border-radius: 50%; margin: 40px auto; display: flex; flex-direction: column; justify-content: center; text-align: center; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
     </style>
 </head>
 <body>
-
     <div id="gate">
         <div class="gate-box">
             <h1 style="font-family: 'Cinzel'; color: var(--gold);">VAULT UNLOCK</h1>
-            <input type="email" id="emailIn" placeholder="Sovereign Email" style="padding:15px; width:100%; margin-bottom:20px; background:#222; color:#fff; border:1px solid #444;">
+            <input type="email" id="emailIn" placeholder="Sovereign Email" style="padding:15px; width:100%; margin-bottom:20px; border-radius: 8px;">
             <button class="zap-btn" onclick="login()">UNLOCK ACCESS</button>
         </div>
     </div>
 
     <div class="container" id="app">
         <div class="top-stats">
-            <div class="stat-box"><small>Market Cap</small><h4>$2.66T <span style="color:var(--up)">+2.57%</span></h4></div>
-            <div class="stat-box"><small>24h Volume</small><h4>$122.7B <span style="color:var(--up)">+48.9%</span></h4></div>
-            <div class="gauge-container">
-                <small>Fear & Greed</small>
-                <div class="gauge"><div class="needle"></div></div>
-                <h4 style="margin:5px 0;">49 (Neutral)</h4>
-            </div>
-            <div class="stat-box" style="flex-grow:1;"><small>Debt Freedom Protocol</small><h4>Active Analysis</h4></div>
+            <div class="stat-box"><small>Market Cap</small><h4>$2.66T <span class="up">▲ 2.57%</span></h4></div>
+            <div class="stat-box"><small>24h Volume</small><h4>$122.7B <span class="up">▲ 48.9%</span></h4></div>
+            <div class="stat-box"><small>Fear & Greed</small><h4>49 (Neutral)</h4></div>
         </div>
-
         <div class="nav">
             <button class="tab-btn active" onclick="showTab('fortress')">🛡️ FORTRESS</button>
             <button class="tab-btn" onclick="showTab('markets')">📈 GLOBAL MARKETS</button>
         </div>
-
         <div id="fortress" class="tab-content active">
-            <div class="meter-wrap"><h2 id="str" style="font-size: 3rem; margin:0; color: var(--gold);">5%</h2><p style="font-size: 0.6rem; font-weight: 700;">STRENGTH</p></div>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
-                <div class="stat-box"><small>Monthly Leak</small><h4 id="tgt">₹0</h4></div>
-                <div class="stat-box"><small>Reclaimed</small><h4 id="rec" style="color:var(--gold);">₹0</h4></div>
-            </div>
-            <button class="zap-btn" style="margin-top:20px;" onclick="zap()">EXECUTE DAILY ZAP</button>
+            <div class="meter-wrap"><h2 id="str" style="font-size: 4rem; margin:0; color: var(--gold);">5%</h2><p style="font-weight: 700;">STRENGTH</p></div>
+            <button class="zap-btn" onclick="zap()">EXECUTE DAILY ZAP</button>
         </div>
-
         <div id="markets" class="tab-content" style="display:none;">
-            <table>
-                <thead>
-                    <tr><th>#</th><th>NAME</th><th>PRICE</th><th>24h %</th><th>MARKET CAP</th><th>VOLUME(24h)</th></tr>
-                </thead>
-                <tbody id="market-body">
-                    <!-- Data Injected Dynamically -->
-                </tbody>
-            </table>
+            <table><thead><tr><th>#</th><th>NAME</th><th>PRICE</th><th>24h %</th><th>MARKET CAP</th></tr></thead>
+            <tbody id="m-body"></tbody></table>
         </div>
     </div>
 
     <script>
         let email = ""; let daily = 0; let rec = 0;
-        const marketData = [
-            {id: 1, n: "Bitcoin BTC", p: 80366.02, c: 2.84, m: "$1.6T", v: "$30.9B"},
-            {id: 2, n: "Ethereum ETH", p: 2390.63, c: 3.90, m: "$288B", v: "$15.2B"},
-            {id: 3, n: "Tether USDT", p: 0.9996, c: -0.01, m: "$189B", v: "$110B"},
-            {id: 4, n: "XRP XRP", p: 1.45, c: 5.12, m: "$1.5B", v: "$61.7B"}
+        const mData = [
+            {id: 1, n: "Bitcoin BTC", p: 80366.02, c: 2.84, m: "$1.6T"},
+            {id: 2, n: "Ethereum ETH", p: 2390.63, c: 3.90, m: "$288B"},
+            {id: 3, n: "Tether USDT", p: 0.9996, c: -0.01, m: "$189B"}
         ];
 
         async function login() {
@@ -102,47 +69,30 @@
                 method: 'POST', headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email: email})
             });
-            if (r.ok) {
-                document.getElementById('gate').style.display = 'none';
-                document.getElementById('app').style.display = 'block';
-                loadData(); renderMarket();
-            } else { alert("Login failed."); }
+            if (r.ok) { document.getElementById('gate').style.display='none'; document.getElementById('app').style.display='block'; load(); render(); }
         }
 
-        function renderMarket() {
-            document.getElementById('market-body').innerHTML = marketData.map(a => `
-                <tr>
-                    <td>${a.id}</td>
-                    <td><b>${a.n}</b></td>
-                    <td class="price-col">$${a.p.toLocaleString()}</td>
-                    <td class="${a.c >= 0 ? 'up' : 'down'}">${a.c > 0 ? '▲' : '▼'} ${Math.abs(a.c)}%</td>
-                    <td>${a.m}</td>
-                    <td>${a.v}</td>
-                </tr>`).join('');
+        function render() {
+            document.getElementById('m-body').innerHTML = mData.map(a => `
+                <tr><td>${a.id}</td><td><b>${a.n}</b></td><td id="p-${a.id}">$${a.p.toLocaleString()}</td>
+                <td class="${a.c >= 0 ? 'up':'down'}">${a.c > 0 ? '▲':'▼'} ${Math.abs(a.c)}%</td><td>${a.m}</td></tr>`).join('');
         }
 
-        async function loadData() {
+        async function load() {
             const r = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${encodeURIComponent(email)}`);
             const d = await r.json();
-            if (d && !d.error) { 
-                daily = parseFloat(d['Daily Leak']) || 0; 
-                document.getElementById('tgt').innerText = "₹" + Math.round(daily * 30).toLocaleString();
-                updateUI(); 
-            }
+            if (d && !d.error) { daily = parseFloat(d['Daily Leak']) || 0; update(); }
         }
 
-        function updateUI() {
+        function update() {
             const goal = daily * 30 || 1;
-            let p = Math.round((rec / goal) * 100);
-            document.getElementById('str').innerText = Math.max(5, Math.min(100, p)) + "%";
-            document.getElementById('rec').innerText = "₹" + rec.toLocaleString();
+            document.getElementById('str').innerText = Math.round((rec / goal) * 100) + "%";
         }
-
-        function zap() { rec += Math.round(daily); updateUI(); }
+        function zap() { rec += Math.round(daily); update(); }
         function showTab(id) {
-            document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+            document.querySelectorAll('.tab-content').forEach(c => c.style.display='none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).style.display = 'block';
+            document.getElementById(id).style.display='block';
             event.currentTarget.classList.add('active');
         }
     </script>

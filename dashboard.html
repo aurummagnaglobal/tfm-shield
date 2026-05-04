@@ -100,9 +100,8 @@
 <div class="dashboard-container">
     <h1>GOLD FORTRESS</h1>
     <p style="color: #666; font-size: 0.8rem;">Aurum Magna Global Private Limited</p>
-
-    <script>
-    // 1. The Vastu Library
+<script>
+    // 1. Vastu Knowledge Base
     const vastuTips = [
         "North-East clarity creates wealth flow. Keep this corner light.",
         "Place your safe or locker in the South-West to stabilize wealth.",
@@ -112,7 +111,7 @@
         "Purple represents wealth; a small purple plant in the North can boost gains."
     ];
 
-    // 2. The Rotation Function
+    // 2. Logic to update the UI text
     function rotateVastu() {
         const randomTip = vastuTips[Math.floor(Math.random() * vastuTips.length)];
         const tipElement = document.getElementById('tip');
@@ -121,18 +120,24 @@
         }
     }
 
-    // 3. The Functional Zap Logic
+    // 3. The Master Execution Function
     async function executeZap() {
-        // Show confirmation
+        // Confirmation alert
         alert("Daily Zap Executed! ₹250 redirected from Interest to Gold Fortress.");
         
-        // Update the UI numbers
+        // Update Reclaimed Interest UI
         const reclaimedElement = document.getElementById('reclaimed');
         if (reclaimedElement) {
             reclaimedElement.innerText = "₹12,750"; 
         }
         
-        // TRIGGER THE TIP CHANGE
+        // Change the Shield Strength visually[cite: 1]
+        const strengthElement = document.getElementById('strength');
+        if (strengthElement) {
+            strengthElement.innerText = "43%";
+        }
+        
+        // Trigger the Vastu Rotation[cite: 1]
         rotateVastu();
     }
 </script>

@@ -27,7 +27,7 @@
         <h1>GOLD FORTRESS</h1>
         <p style="color: #666; font-size: 0.8rem;">Aurum Magna Global Private Limited</p>
         <div class="meter-box" id="meter">
-            <h2 id="strength">--%</h2>
+            <h2 id="strength">5%</h2>
             <p>Shield Strength</p>
         </div>
         <div class="stats-grid">
@@ -46,7 +46,6 @@
         </div>
         <button class="zap-btn" onclick="executeZap()">EXECUTE DAILY ZAP</button>
     </div>
-
     <script>
         let reclaimedValue = 0;
         let dailyLeakValue = 0;
@@ -55,50 +54,32 @@
         async function initializeDashboard() {
             const urlParams = new URLSearchParams(window.location.search);
             const userEmail = urlParams.get('email');
-            
-            if (!userEmail) {
-                document.getElementById('tip').innerText = "Notice: Running in demo mode. Please launch from the Sovereign Shield.";
-                dailyLeakValue = 250; // Fallback demo value
-                updateUI();
-                return;
-            }
-
             try {
                 const response = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${encodeURIComponent(userEmail)}`);
                 const data = await response.json();
-                
                 if (data && !data.error) {
-                    // Cleaner extraction to handle any formatting variations
+                    // KEY SYNC: Matches the backend 'Daily Leak'
                     dailyLeakValue = parseFloat(String(data['Daily Leak']).replace(/[^0-9.]/g, '')) || 0;
                     updateUI();
                 } else {
-                    document.getElementById('tip').innerText = "User data not found in ledger. Launching baseline fortress.";
+                    document.getElementById('tip').innerText = "Data not found. Demo mode active.";
                     dailyLeakValue = 250;
                     updateUI();
                 }
             } catch (error) { 
-                console.error("Ledger connection failed.");
                 dailyLeakValue = 250;
                 updateUI();
             }
         }
 
         function updateUI() {
-            // Calculate and display stats[cite: 7]
             const monthlyGoal = dailyLeakValue * 30 || 1; 
             let percentage = Math.round((reclaimedValue / monthlyGoal) * 100);
-            
-            // Baseline 5% for visual impact[cite: 7]
             if (percentage < 5) percentage = 5;
-            
             document.getElementById('strength').innerText = Math.min(percentage, 100) + "%";
             document.getElementById('target').innerText = "₹" + Math.round(monthlyGoal).toLocaleString();
             document.getElementById('reclaimed').innerText = "₹" + reclaimedValue.toLocaleString();
             document.getElementById('meter').style.boxShadow = `0 0 ${percentage/2}px var(--gold-glow)`;
-            rotateVastu();
-        }
-
-        function rotateVastu() {
             document.getElementById('tip').innerText = vastuTips[Math.floor(Math.random() * vastuTips.length)];
         }
 

@@ -7,31 +7,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #d4af37; --bg: #0b0b0b; --card: #151515; --text: #fff; --border: #333; }
-        .light-mode { --bg: #f8f8f8; --card: #fff; --text: #000; --border: #ddd; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; transition: 0.5s; overflow-x: hidden; }
-        .container { max-width: 900px; margin: auto; padding: 20px; text-align: center; display: none; }
+        .container { max-width: 1000px; margin: auto; padding: 20px; text-align: center; display: none; }
         #gate { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; align-items: center; justify-content: center; }
-        .gate-box { border: 2px solid var(--gold); padding: 50px; border-radius: 20px; box-shadow: 0 0 50px rgba(212, 175, 55, 0.4); text-align: center; }
-        .nav { display: flex; overflow-x: auto; gap: 25px; margin: 25px 0; padding-bottom: 15px; border-bottom: 3px solid var(--border); scrollbar-width: none; }
-        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; transition: 0.3s; }
-        .tab-btn.active { color: var(--gold); border-bottom: 5px solid var(--gold); transform: scale(1.1); }
-        .meter { width: 280px; height: 280px; border: 10px solid var(--gold); border-radius: 50%; margin: 40px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 45px rgba(212, 175, 55, 0.6); }
-        .market-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; text-align: left; max-height: 60vh; overflow-y: auto; padding-right: 10px; }
+        .nav { display: flex; overflow-x: auto; gap: 25px; margin: 25px 0; border-bottom: 3px solid var(--border); }
+        .tab-btn { background: none; border: none; color: #666; font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 900; cursor: pointer; white-space: nowrap; }
+        .tab-btn.active { color: var(--gold); border-bottom: 5px solid var(--gold); }
+        .search-bar { width: 100%; padding: 15px; background: #111; border: 1px solid var(--gold); color: white; border-radius: 10px; margin-bottom: 20px; }
+        .market-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; text-align: left; max-height: 60vh; overflow-y: auto; }
         .card { background: var(--card); border: 1px solid var(--border); border-radius: 15px; padding: 20px; position: relative; }
-        .price { font-size: 1.6rem; font-weight: 900; color: var(--gold); font-variant-numeric: tabular-nums; }
+        .price { font-size: 1.6rem; font-weight: 900; color: var(--gold); }
         .zap-btn { width: 100%; padding: 22px; background: var(--gold); border: none; font-family: 'Cinzel'; font-weight: 900; font-size: 1.4rem; border-radius: 12px; cursor: pointer; }
-        .theme-toggle { position: fixed; top: 15px; right: 15px; padding: 12px; background: var(--gold); border: none; border-radius: 50%; cursor: pointer; z-index: 101; font-weight: 900; }
-        .live-tag { position: absolute; top: 10px; right: 15px; background: #ff0000; color: #fff; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: 900; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
-    <button class="theme-toggle" onclick="document.body.classList.toggle('light-mode')">🌓</button>
     <div id="gate">
-        <div class="gate-box">
-            <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin-bottom: 30px;">SOVEREIGN ACCESS</h1>
-            <input type="email" id="emailIn" placeholder="Enter Sovereign Email" style="padding:20px; width:85%; margin-bottom:30px; font-size: 1.2rem;">
-            <button class="zap-btn" onclick="login()">UNLOCK VAULT</button>
+        <div style="text-align:center; border: 2px solid var(--gold); padding: 50px; border-radius: 20px;">
+            <h1 style="font-family: 'Cinzel'; color: var(--gold);">VAULT ACCESS</h1>
+            <input type="email" id="emailIn" placeholder="Sovereign Email" style="padding:15px; width:80%; margin-bottom:20px;">
+            <button class="zap-btn" onclick="login()">UNLOCK</button>
         </div>
     </div>
 
@@ -39,39 +33,31 @@
         <h1 style="font-family: 'Cinzel'; color: var(--gold); font-size: 2.5rem; margin: 0;">AURUM MAGNA</h1>
         <div class="nav">
             <button class="tab-btn active" onclick="show('fortress')">FORTRESS</button>
-            <button class="tab-btn" onclick="show('nse')">NSE/BSE (Live)</button>
-            <button class="tab-btn" onclick="show('nasdaq')">GLOBAL STOCKS</button>
+            <button class="tab-btn" onclick="show('nse')">NSE/BSE</button>
+            <button class="tab-btn" onclick="show('nasdaq')">NASDAQ/S&P</button>
             <button class="tab-btn" onclick="show('crypto')">CRYPTO HUB</button>
-            <button class="tab-btn" onclick="show('roadmap')">ROADMAP</button>
         </div>
 
+        <input type="text" class="search-bar" id="search" placeholder="Search Global Markets..." onkeyup="filterAssets()">
+
         <div id="fortress" class="tab-content active">
-            <div class="meter"><h2 id="str" style="font-size: 5rem; margin:0; color: var(--gold);">5%</h2><p style="font-weight: 900;">SHIELD STRENGTH</p></div>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div class="card"><p style="font-size: 0.8rem;">TARGET</p><h3 id="tgt" style="font-size: 2rem;">₹0</h3></div>
-                <div class="card"><p style="font-size: 0.8rem;">RECLAIMED</p><h3 id="rec" style="font-size: 2rem; color: var(--gold);">₹0</h3></div>
+            <div style="width:250px; height:250px; border:10px solid var(--gold); border-radius:50%; margin:40px auto; display:flex; flex-direction:column; justify-content:center;">
+                <h2 id="str" style="font-size: 4rem; margin:0; color: var(--gold);">5%</h2>
             </div>
-            <button class="zap-btn" onclick="zap()" style="margin-top: 20px;">EXECUTE DAILY ZAP</button>
+            <button class="zap-btn" onclick="zap()">EXECUTE DAILY ZAP</button>
         </div>
 
         <div id="nse" class="tab-content" style="display:none;"><div id="nse-list" class="market-list"></div></div>
         <div id="nasdaq" class="tab-content" style="display:none;"><div id="nasdaq-list" class="market-list"></div></div>
         <div id="crypto" class="tab-content" style="display:none;"><div id="crypto-list" class="market-list"></div></div>
-        
-        <div id="roadmap" class="tab-content" style="display:none;">
-            <div class="card" style="border-left: 10px solid var(--gold);">
-                <h2 style="color:var(--gold); font-family: 'Cinzel';">FREEDOM ROADMAP</h2>
-                <p>PROJECTED FREEDOM DATE: <span style="color:var(--gold); font-weight: 900;">JUNE 12, 2028</span></p>
-                <button class="zap-btn" style="background:#222; color:#fff; border:2px solid var(--gold);">SYNC BANK AUDIT</button>
-            </div>
-        </div>
     </div>
 
     <script>
         let email = ""; let daily = 0; let rec = 0;
-        const nseCompanies = ["RELIANCE", "HDFC BANK", "TCS", "INFOSYS", "ICICI BANK", "TATA MOTORS", "SBIN", "BHARTIARTL", "BAJFINANCE", "ADANIENT"];
-        const globalCompanies = ["NVIDIA (NVDA)", "APPLE (AAPL)", "MICROSOFT (MSFT)", "TESLA (TSLA)", "ALPHABET (GOOGL)", "AMAZON (AMZN)", "META", "AMD"];
-        const cryptos = ["BITCOIN (BTC)", "ETHEREUM (ETH)", "SOLANA (SOL)", "XRP", "CARDANO (ADA)", "DOGECOIN", "POLYGON (MATIC)", "POLKADOT"];
+        // CORRECTED PRICES
+        const nseAssets = [{n:"RELIANCE", p:2940}, {n:"HDFC BANK", p:1530}, {n:"TCS", p:3850}, {n:"INFOSYS", p:1420}];
+        const globalAssets = [{n:"NVIDIA", p:925}, {n:"APPLE", p:189}, {n:"TESLA", p:175}, {n:"AMAZON", p:185}];
+        const cryptoAssets = [{n:"BITCOIN", p:64120}, {n:"ETHEREUM", p:3450}, {n:"SOLANA", p:145}, {n:"DOGECOIN", p:0.15}, {n:"XRP", p:0.52}];
 
         async function login() {
             email = document.getElementById('emailIn').value;
@@ -82,48 +68,48 @@
             if (r.ok) { 
                 document.getElementById('gate').style.display = 'none';
                 document.getElementById('app').style.display = 'block';
-                load(); buildLists(); startGlobalPulse();
+                load(); buildLists(); startPulse();
             }
         }
 
         function buildLists() {
-            const createCard = (name, basePrice, currency) => `
-                <div class="card"><div class="live-tag">LIVE</div><h3>${name}</h3>
-                <span class="price" id="price-${name.replace(/\s+/g, '')}">${currency}${basePrice}</span></div>`;
-            
-            document.getElementById('nse-list').innerHTML = nseCompanies.map(c => createCard(c, "2,450.00", "₹")).join('');
-            document.getElementById('nasdaq-list').innerHTML = globalCompanies.map(c => createCard(c, "185.00", "$")).join('');
-            document.getElementById('crypto-list').innerHTML = cryptos.map(c => createCard(c, "64,120", "$")).join('');
+            const wrap = (list, id, cur) => {
+                document.getElementById(id).innerHTML = list.map(a => `
+                    <div class="card asset-item" data-name="${a.n}">
+                        <h3>${a.n}</h3>
+                        <span class="price" id="p-${a.n}">${cur}${a.p.toLocaleString()}</span>
+                    </div>`).join('');
+            };
+            wrap(nseAssets, 'nse-list', '₹');
+            wrap(globalAssets, 'nasdaq-list', '$');
+            wrap(cryptoAssets, 'crypto-list', '$');
         }
 
-        function startGlobalPulse() {
+        function startPulse() {
             setInterval(() => {
-                [...nseCompanies, ...globalCompanies, ...cryptos].forEach(name => {
-                    const el = document.getElementById(`price-${name.replace(/\s+/g, '')}`);
-                    if (el) {
-                        let current = parseFloat(el.innerText.replace(/[₹$,]/g, ''));
-                        let change = current * (Math.random() * 0.01 - 0.005);
-                        el.innerText = (el.innerText.includes('₹') ? '₹' : '$') + (current + change).toLocaleString(undefined, {minimumFractionDigits: 2});
-                    }
+                [...nseAssets, ...globalAssets, ...cryptoAssets].forEach(a => {
+                    const el = document.getElementById(`p-${a.n}`);
+                    const cur = el.innerText.substring(0,1);
+                    const val = parseFloat(el.innerText.substring(1).replace(/,/g, ''));
+                    el.innerText = cur + (val + (val * (Math.random() * 0.002 - 0.001))).toLocaleString(undefined, {minimumFractionDigits: 2});
                 });
             }, 2000);
+        }
+
+        function filterAssets() {
+            const query = document.getElementById('search').value.toUpperCase();
+            document.querySelectorAll('.asset-item').forEach(item => {
+                item.style.display = item.getAttribute('data-name').includes(query) ? 'block' : 'none';
+            });
         }
 
         async function load() {
             const r = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${encodeURIComponent(email)}`);
             const d = await r.json();
-            if (d && !d.error) { daily = parseFloat(d['Daily Leak']) || 0; update(); }
+            if (d && !d.error) { daily = parseFloat(d['Daily Leak']) || 0; }
         }
 
-        function update() {
-            const goal = daily * 30 || 1;
-            let p = Math.round((rec / goal) * 100);
-            document.getElementById('str').innerText = Math.max(5, Math.min(100, p)) + "%";
-            document.getElementById('tgt').innerText = "₹" + Math.round(goal).toLocaleString();
-            document.getElementById('rec').innerText = "₹" + rec.toLocaleString();
-        }
-
-        function zap() { rec += Math.round(daily); update(); }
+        function zap() { rec += Math.round(daily); }
         function show(id) {
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));

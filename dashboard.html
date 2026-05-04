@@ -6,186 +6,87 @@
     <title>Gold Fortress Dashboard | Aurum Magna Global</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --gold: #d4af37;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --obsidian: #0b0b0b;
-            --card-bg: #1a1a1a;
-        }
-
-        body {
-            background-color: var(--obsidian);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .dashboard-container {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            text-align: center;
-        }
-
+        :root { --gold: #d4af37; --gold-glow: rgba(212, 175, 55, 0.4); --obsidian: #0b0b0b; --card-bg: #1a1a1a; }
+        body { background-color: var(--obsidian); color: white; font-family: 'Inter', sans-serif; margin: 0; display: flex; justify-content: center; min-height: 100vh; }
+        .dashboard-container { width: 100%; max-width: 450px; padding: 20px; text-align: center; }
         h1 { font-family: 'Cinzel', serif; color: var(--gold); letter-spacing: 2px; }
-
-        .meter-box {
-            width: 250px;
-            height: 250px;
-            border: 2px solid var(--gold);
-            border-radius: 50%;
-            margin: 30px auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            box-shadow: 0 0 25px var(--gold-glow);
-            background: radial-gradient(circle, #222 0%, #000 100%);
-            transition: all 0.5s ease;
-        }
-
+        .meter-box { width: 250px; height: 250px; border: 2px solid var(--gold); border-radius: 50%; margin: 30px auto; display: flex; flex-direction: column; justify-content: center; box-shadow: 0 0 25px var(--gold-glow); background: radial-gradient(circle, #222 0%, #000 100%); transition: all 0.5s ease; }
         .meter-box h2 { font-size: 3rem; color: var(--gold); margin: 0; }
         .meter-box p { color: var(--gold); text-transform: uppercase; font-size: 0.7rem; margin: 0; }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #333;
-        }
-
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .card { background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid #333; }
         .card p { color: #888; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 5px; }
         .card h3 { color: white; margin: 0; font-size: 1.2rem; }
-
-        .vastu-card {
-            background: #111;
-            border-left: 4px solid var(--gold);
-            margin-top: 25px;
-            padding: 15px;
-            text-align: left;
-            border-radius: 5px;
-        }
-
+        .vastu-card { background: #111; border-left: 4px solid var(--gold); margin-top: 25px; padding: 15px; text-align: left; border-radius: 5px; }
         .vastu-card b { color: var(--gold); font-family: 'Cinzel', serif; }
-
-        .zap-btn {
-            width: 100%;
-            margin-top: 30px;
-            padding: 15px;
-            background: var(--gold);
-            border: none;
-            color: black;
-            font-weight: bold;
-            font-family: 'Cinzel', serif;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .zap-btn { width: 100%; margin-top: 30px; padding: 15px; background: var(--gold); border: none; color: black; font-weight: bold; font-family: 'Cinzel', serif; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body onload="initializeDashboard()">
-
-<div class="dashboard-container">
-    <h1>GOLD FORTRESS</h1>
-    <p style="color: #666; font-size: 0.8rem;">Aurum Magna Global Private Limited</p>
-
-    <div class="meter-box" id="meter">
-        <h2 id="strength">--%</h2>
-        <p>Shield Strength</p>
-    </div>
-
-    <div class="stats-grid">
-        <div class="card">
-            <p>Target Savings</p>
-            <h3 id="target">₹0</h3>
+    <div class="dashboard-container">
+        <h1>GOLD FORTRESS</h1>
+        <p style="color: #666; font-size: 0.8rem;">Aurum Magna Global Private Limited</p>
+        <div class="meter-box" id="meter">
+            <h2 id="strength">5%</h2>
+            <p>Shield Strength</p>
         </div>
-        <div class="card">
-            <p>Interest Reclaimed</p>
-            <h3 id="reclaimed" style="color: var(--gold);">₹0</h3>
+        <div class="stats-grid">
+            <div class="card">
+                <p>Target Savings (30D)</p>
+                <h3 id="target">₹0</h3>
+            </div>
+            <div class="card">
+                <p>Interest Reclaimed</p>
+                <h3 id="reclaimed" style="color: var(--gold);">₹0</h3>
+            </div>
         </div>
+        <div class="vastu-card">
+            <b>🛡️ FINANCIAL VASTU</b>
+            <p id="tip" style="font-size: 0.9rem; line-height: 1.4;">Connecting to your Sovereign Ledger...</p>
+        </div>
+        <button class="zap-btn" onclick="executeZap()">EXECUTE DAILY ZAP</button>
     </div>
 
-    <div class="vastu-card">
-        <b>🛡️ FINANCIAL VASTU</b>
-        <p id="tip" style="font-size: 0.9rem; line-height: 1.4;">Loading your prosperity alignment...</p>
-    </div>
+    <script>
+        let reclaimedValue = 0;
+        let dailyLeakValue = 0;
+        const vastuTips = ["North-East clarity creates wealth flow.", "Safe in the South-West stabilizes wealth.", "Desk facing North attracts opportunities.", "Water vessel in North enhances cash flow.", "Avoid mirrors facing your safe."];
 
-    <button class="zap-btn" onclick="executeZap()">EXECUTE DAILY ZAP</button>
-</div>
-
-<script>
-    let reclaimedValue = 0;
-    let dailyLeakValue = 0;
-
-    const vastuTips = [
-        "North-East clarity creates wealth flow. Keep this corner light.",
-        "Place your safe or locker in the South-West to stabilize wealth.",
-        "Ensure your desk faces North or East to attract new opportunities.",
-        "A small brass vessel of water in the North enhances cash flow.",
-        "Avoid mirrors directly facing your safe to maintain financial energy.",
-        "Purple represents wealth; a small purple plant in the North can boost gains."
-    ];
-
-    async function initializeDashboard() {
-        // We will pull the email from a URL parameter eventually. 
-        // For now, it pulls your specific record.
-        const userEmail = "shirajbhattacharya@gmail.com"; 
-        
-        try {
-            const response = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${userEmail}`);
-            const data = await response.json();
-
-            if (data && !data.error) {
-                dailyLeakValue = parseFloat(data['Daily Leak']) || 100;
-                document.getElementById('target').innerText = "₹" + (dailyLeakValue * 30).toLocaleString();
-                updateStrength();
-                rotateVastu();
-            }
-        } catch (error) {
-            console.error("Ledger connection failed. Using offline mode.");
-            dailyLeakValue = 250; 
-            updateStrength();
+        async function initializeDashboard() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get('email') || "shirajbhattacharya@gmail.com"; 
+            
+            try {
+                const response = await fetch(`https://aurummagnaglobal.pythonanywhere.com/get_latest_data?email=${userEmail}`);
+                const data = await response.json();
+                if (data && !data.error) {
+                    dailyLeakValue = parseFloat(data['Daily Leak']) || 0;
+                    document.getElementById('target').innerText = "₹" + (dailyLeakValue * 30).toLocaleString();
+                    updateStrength();
+                    rotateVastu();
+                }
+            } catch (error) { console.error("Ledger failed."); }
         }
-    }
 
-    function updateStrength() {
-        // Formula: Savings vs Monthly Leakage
-        const monthlyLeak = dailyLeakValue * 30;
-        let percentage = Math.min(Math.round((reclaimedValue / monthlyLeak) * 100), 100);
-        
-        // Ensure it starts at a baseline of at least 5% for visual appeal
-        if (percentage < 5) percentage = 5;
+        function updateStrength() {
+            const monthlyGoal = dailyLeakValue * 30 || 1; 
+            let percentage = Math.round((reclaimedValue / monthlyGoal) * 100);
+            if (percentage < 5) percentage = 5;
+            document.getElementById('strength').innerText = Math.min(percentage, 100) + "%";
+            document.getElementById('reclaimed').innerText = "₹" + reclaimedValue.toLocaleString();
+            document.getElementById('meter').style.boxShadow = `0 0 ${percentage/2}px var(--gold-glow)`;
+        }
 
-        document.getElementById('strength').innerText = percentage + "%";
-        document.getElementById('reclaimed').innerText = "₹" + reclaimedValue.toLocaleString();
-        
-        // Add a gold glow effect as strength increases
-        document.getElementById('meter').style.boxShadow = `0 0 ${percentage/2}px var(--gold-glow)`;
-    }
+        function rotateVastu() {
+            document.getElementById('tip').innerText = vastuTips[Math.floor(Math.random() * vastuTips.length)];
+        }
 
-    function rotateVastu() {
-        const randomTip = vastuTips[Math.floor(Math.random() * vastuTips.length)];
-        document.getElementById('tip').innerText = randomTip;
-    }
-
-    function executeZap() {
-        // Each zap redirects 1 day worth of interest leak
-        reclaimedValue += Math.round(dailyLeakValue);
-        
-        alert(`Success! ₹${Math.round(dailyLeakValue)} redirected to the Gold Fortress.`);
-        
-        updateStrength();
-        rotateVastu();
-    }
-</script>
-
+        function executeZap() {
+            reclaimedValue += Math.round(dailyLeakValue);
+            alert(`₹${Math.round(dailyLeakValue)} Redirected!`);
+            updateStrength();
+            rotateVastu();
+        }
+    </script>
 </body>
 </html>

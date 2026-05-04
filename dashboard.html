@@ -101,36 +101,7 @@
     <h1>GOLD FORTRESS</h1>
     <p style="color: #666; font-size: 0.8rem;">Aurum Magna Global Private Limited</p>
 
-    <div class="meter-box">
-        <h2 id="strength">42%</h2>
-        <p>Shield Strength</p>
-    </div>
-
-    <div class="stats-grid">
-        <div class="card">
-            <p>Days to Sovereignty</p>
-            <h3 id="days">365</h3>
-        </div>
-        <div class="card">
-            <p>Interest Reclaimed</p>
-            <h3 id="reclaimed" style="color: var(--gold);">₹12,500</h3>
-        </div>
-    </div>
-
-    <div class="vastu-card">
-        <b>🛡️ FINANCIAL VASTU</b>
-        <p id="tip" style="font-size: 0.9rem; line-height: 1.4;">North-East clarity creates wealth flow. Ensure no heavy objects are placed in this corner of your office.</p>
-    </div>
-
-    <button class="zap-btn" onclick="executeZap()">EXECUTE DAILY ZAP</button>
-</div>
-
-<script>
-    function executeZap() {
-        alert("Daily Zap Executed! ₹250 redirected from Interest to Gold Fortress.");
-        // This will eventually connect to your PythonAnywhere API
-    }
-<script>
+    <script>
     // 1. The Vastu Library
     const vastuTips = [
         "North-East clarity creates wealth flow. Keep this corner light.",
@@ -150,18 +121,20 @@
         }
     }
 
-    // 3. The Combined Zap Function
+    // 3. The Functional Zap Logic
     async function executeZap() {
-        // Show the confirmation alert
+        // Show confirmation
         alert("Daily Zap Executed! ₹250 redirected from Interest to Gold Fortress.");
         
         // Update the UI numbers
         const reclaimedElement = document.getElementById('reclaimed');
         if (reclaimedElement) {
-            reclaimedElement.innerText = "₹12,750"; // Simulating a zap update
+            reclaimedElement.innerText = "₹12,750"; 
         }
         
         // TRIGGER THE TIP CHANGE
         rotateVastu();
     }
 </script>
+</body>
+</html>

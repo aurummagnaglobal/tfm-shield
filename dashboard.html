@@ -130,7 +130,38 @@
         alert("Daily Zap Executed! ₹250 redirected from Interest to Gold Fortress.");
         // This will eventually connect to your PythonAnywhere API
     }
-</script>
+<script>
+    // 1. The Vastu Library
+    const vastuTips = [
+        "North-East clarity creates wealth flow. Keep this corner light.",
+        "Place your safe or locker in the South-West to stabilize wealth.",
+        "Ensure your desk faces North or East to attract new opportunities.",
+        "A small brass vessel of water in the North enhances cash flow.",
+        "Avoid mirrors directly facing your safe to maintain financial energy.",
+        "Purple represents wealth; a small purple plant in the North can boost gains."
+    ];
 
-</body>
-</html>
+    // 2. The Rotation Function
+    function rotateVastu() {
+        const randomTip = vastuTips[Math.floor(Math.random() * vastuTips.length)];
+        const tipElement = document.getElementById('tip');
+        if (tipElement) {
+            tipElement.innerText = randomTip;
+        }
+    }
+
+    // 3. The Combined Zap Function
+    async function executeZap() {
+        // Show the confirmation alert
+        alert("Daily Zap Executed! ₹250 redirected from Interest to Gold Fortress.");
+        
+        // Update the UI numbers
+        const reclaimedElement = document.getElementById('reclaimed');
+        if (reclaimedElement) {
+            reclaimedElement.innerText = "₹12,750"; // Simulating a zap update
+        }
+        
+        // TRIGGER THE TIP CHANGE
+        rotateVastu();
+    }
+</script>
